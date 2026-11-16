@@ -16,32 +16,35 @@ This repository covers only the CMB example. The other examples in the paper
 
 ## Method
 
-1. **Posterior.** With $`\theta = (H_0, \Omega_b h^2, \Omega_c h^2, \tau, n_s, A_s, A_\mathrm{Planck})`$,
+**1. Posterior.** With $`\theta = (H_0, \Omega_b h^2, \Omega_c h^2, \tau, n_s, A_s, A_\mathrm{Planck})`$,
 
-   ```math
-   \log p(\theta \mid d) = \log L_\mathrm{plik\_lite}^{TT}(\theta) + \log L_\mathrm{Commander}^{TT}(\theta) + \log N(\tau \mid 0.0543,\, 0.0073^2).
-   ```
+```math
+\log p(\theta \mid d) = \log L_\mathrm{plik\_lite}^{TT}(\theta) + \log L_\mathrm{Commander}^{TT}(\theta) + \log N(\tau \mid 0.0543,\, 0.0073^2).
+```
 
-   These are the Planck 2018 *temperature-only* likelihoods: plik_lite for $`30 \le \ell \le 2508`$
-   and Commander for $`2 \le \ell \le 29`$. The Gaussian prior on $`\tau`$ stands in for the
-   low-ℓ polarisation data. $`C_\ell(\theta)`$ is computed with CAMB.
-2. **Best fit.** Find the posterior mode $`\hat{\theta}`$ (Powell, in rescaled parameters).
-3. **Uncertainty.** Compute the Fisher matrix $`F`$ of the six cosmological parameters by finite
-   differences at $`\hat{\theta}`$. The marginal widths are $`\hat{\sigma} = \sqrt{\mathrm{diag}\, F^{-1}}`$.
-4. **Pseudo-data width.** Set $`\sigma^*`$ to half the posterior-predictive standard deviation of $`D_{\ell^*}`$:
+These are the Planck 2018 *temperature-only* likelihoods: plik_lite for $`30 \le \ell \le 2508`$
+and Commander for $`2 \le \ell \le 29`$. The Gaussian prior on $`\tau`$ stands in for the
+low-ℓ polarisation data. $`C_\ell(\theta)`$ is computed with CAMB.
 
-   ```math
-   \sigma^* = \tfrac{1}{2} \sqrt{\nabla D_{\ell^*}^{\mathsf{T}}\, F^{-1}\, \nabla D_{\ell^*}}.
-   ```
+**2. Best fit.** Find the posterior mode $`\hat{\theta}`$ (Powell, in rescaled parameters).
 
-5. **Perturbed fit.** Find $`\theta^*`$ by maximising
+**3. Uncertainty.** Compute the Fisher matrix $`F`$ of the six cosmological parameters by finite
+differences at $`\hat{\theta}`$. The marginal widths are $`\hat{\sigma} = \sqrt{\mathrm{diag}\, F^{-1}}`$.
 
-   ```math
-   \log p(\theta \mid d) + \log N\!\left(D^*_{\ell^*} \mid D_{\ell^*}(\theta),\, \sigma^{*2}\right).
-   ```
+**4. Pseudo-data width.** Set $`\sigma^*`$ to half the posterior-predictive standard deviation of $`D_{\ell^*}`$:
 
-6. **Report.** The cost $`\log p(\hat{\theta} \mid d) - \log p(\theta^* \mid d)`$, the shifts
-   $`(\theta^* - \hat{\theta})/\hat{\sigma}`$, and the perturbed spectrum.
+```math
+\sigma^* = \tfrac{1}{2} \sqrt{\nabla D_{\ell^*}^{\mathsf{T}}\, F^{-1}\, \nabla D_{\ell^*}}.
+```
+
+**5. Perturbed fit.** Find $`\theta^*`$ by maximising
+
+```math
+\log p(\theta \mid d) + \log N\!\left(D^*_{\ell^*} \mid D_{\ell^*}(\theta),\, \sigma^{*2}\right).
+```
+
+**6. Report.** The cost $`\log p(\hat{\theta} \mid d) - \log p(\theta^* \mid d)`$, the shifts
+$`(\theta^* - \hat{\theta})/\hat{\sigma}`$, and the perturbed spectrum.
 
 ## Files
 
