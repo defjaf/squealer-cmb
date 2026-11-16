@@ -1,0 +1,15 @@
+# Planck likelihood code + data (downloaded and built by setup_planck.sh)
+planck_2018/
+
+# generated outputs
+figures/
+results/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# macOS
+.DS_Store

@@ -1,0 +1,6 @@
+numpy
+scipy
+matplotlib
+astropy   # used by clik to read FITS files
+camb>=1.5
+cython>=3.0   # only needed by setup_planck.sh to build the clik Python bindings
