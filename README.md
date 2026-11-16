@@ -9,27 +9,39 @@ Code for the cosmology example ("A model of power spectra in cosmology", Fig. CM
 The Squealer drags a fitted curve toward a user-chosen pseudo-data point and reports
 how far the model parameters must move, and how much the original posterior dislikes
 the move. Here the curve is the Planck 2018 CMB temperature power spectrum
-$D_\ell^{TT}(\theta)$ in six-parameter ΛCDM.
+$`D_\ell^{TT}(\theta)`$ in six-parameter ΛCDM.
 
 This repository covers only the CMB example. The other examples in the paper
 (golf putting, dilution assays, Gaussian-process temperature series) are not included.
 
 ## Method
 
-1. **Posterior.** $\log p(\theta\mid d) = \log L_\text{plik\_lite}^{TT} + \log L_\text{Commander}^{TT}
-   + \log N(\tau \mid 0.0543, 0.0073^2)$, with $\theta = (H_0, \Omega_b h^2, \Omega_c h^2, \tau, n_s, A_s, A_\text{Planck})$.
-   The Planck 2018 *temperature-only* likelihoods are used: plik_lite for $30 \le \ell \le 2508$
-   and Commander for $2 \le \ell \le 29$. The Gaussian prior on $\tau$ stands in for the
-   low-$\ell$ polarisation data. $C_\ell(\theta)$ is computed with CAMB.
-2. **Best fit.** Find the posterior mode $\hat\theta$ (Powell, in rescaled parameters).
-3. **Uncertainty.** Fisher matrix $F$ of the six cosmological parameters by finite differences
-   at $\hat\theta$; marginal widths $\hat\sigma = \sqrt{\mathrm{diag}\,F^{-1}}$.
-4. **Pseudo-data width.** $\sigma^* = \tfrac12 \sqrt{\nabla D_{\ell^*}^{\,T} F^{-1} \nabla D_{\ell^*}}$,
-   half the posterior-predictive standard deviation of $D_{\ell^*}$.
-5. **Perturbed fit.** Maximise $\log p(\theta\mid d) + \log N(D^*_{\ell^*} \mid D_{\ell^*}(\theta), \sigma^{*2})$
-   to get $\theta^*$.
-6. **Report.** cost $= \log p(\hat\theta\mid d) - \log p(\theta^*\mid d)$, the shifts
-   $(\theta^*-\hat\theta)/\hat\sigma$, and the perturbed spectrum.
+1. **Posterior.** With $`\theta = (H_0, \Omega_b h^2, \Omega_c h^2, \tau, n_s, A_s, A_\mathrm{Planck})`$,
+
+   ```math
+   \log p(\theta \mid d) = \log L_\mathrm{plik\_lite}^{TT}(\theta) + \log L_\mathrm{Commander}^{TT}(\theta) + \log N(\tau \mid 0.0543,\, 0.0073^2).
+   ```
+
+   These are the Planck 2018 *temperature-only* likelihoods: plik_lite for $`30 \le \ell \le 2508`$
+   and Commander for $`2 \le \ell \le 29`$. The Gaussian prior on $`\tau`$ stands in for the
+   low-ℓ polarisation data. $`C_\ell(\theta)`$ is computed with CAMB.
+2. **Best fit.** Find the posterior mode $`\hat{\theta}`$ (Powell, in rescaled parameters).
+3. **Uncertainty.** Compute the Fisher matrix $`F`$ of the six cosmological parameters by finite
+   differences at $`\hat{\theta}`$. The marginal widths are $`\hat{\sigma} = \sqrt{\mathrm{diag}\, F^{-1}}`$.
+4. **Pseudo-data width.** Set $`\sigma^*`$ to half the posterior-predictive standard deviation of $`D_{\ell^*}`$:
+
+   ```math
+   \sigma^* = \tfrac{1}{2} \sqrt{\nabla D_{\ell^*}^{\mathsf{T}}\, F^{-1}\, \nabla D_{\ell^*}}.
+   ```
+
+5. **Perturbed fit.** Find $`\theta^*`$ by maximising
+
+   ```math
+   \log p(\theta \mid d) + \log N\!\left(D^*_{\ell^*} \mid D_{\ell^*}(\theta),\, \sigma^{*2}\right).
+   ```
+
+6. **Report.** The cost $`\log p(\hat{\theta} \mid d) - \log p(\theta^* \mid d)`$, the shifts
+   $`(\theta^* - \hat{\theta})/\hat{\sigma}`$, and the perturbed spectrum.
 
 ## Files
 
@@ -142,8 +154,8 @@ Powell tolerances. For example, `--test` gives a cost of −0.4 rather than exac
 ## Notes
 
 - Only the posterior *mode* is perturbed. Unlike the other examples in the paper, no posterior samples are drawn.
-- The low-ℓ ($\ell<30$) points in the figures are the published Planck per-multipole estimates, used for display only. The fit uses the full Commander likelihood.
-- No prior is placed on the calibration parameter $A_\text{Planck}$. Its bar in the parameter-shift panels is scaled by the finite-difference step ($10^{-3}$), not by a posterior width.
+- The low-ℓ (ℓ < 30) points in the figures are the published Planck per-multipole estimates, used for display only. The fit uses the full Commander likelihood.
+- No prior is placed on the calibration parameter $`A_\mathrm{Planck}`$. Its bar in the parameter-shift panels is scaled by the finite-difference step ($`10^{-3}`$), not by a posterior width.
 
 ## Citation
 
